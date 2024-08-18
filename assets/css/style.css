@@ -12,7 +12,7 @@
 
 .encabezado {
     align-items: center;
-    display:flex;
+    /* display:flex; */
     grid-area: header;
     padding: 0 2rem;
     background: #f1f1f1;
