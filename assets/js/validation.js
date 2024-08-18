@@ -73,7 +73,12 @@ function policyPasswordValidation() {
     var containsUpper = /[A-Z]/.test(passwordInput);
 
     if (containsNumer && containsUpper) {
-        return true;
+        if (passwordInput.length >= 6 || passwordInput <= 18) {
+            return true;
+        } else {
+            alert("La contraseña debe tener entre 6 y 18 caracteres.")
+            return false;
+        }
     } else {
         alert("La contraseña debe de tener al menos un numero y letra mayuscula.")
         return false;
