@@ -86,6 +86,12 @@ function policyPasswordValidation() {
 }
 
 function isEqualPassword(password, confirmPassword) {
+    if (password === "" || confirmPassword === "") {
+        document.getElementById('passwordConfirmationInput').classList.remove('is-valid', 'is-invalid');
+        document.getElementById('passwordInput').classList.remove('is-valid', 'is-invalid');
+        return false;
+    }
+
     if (password !== confirmPassword) {
         document.getElementById('passwordConfirmationInput').classList.add('is-invalid');
         document.getElementById('passwordConfirmationInput').classList.remove('is-valid');
