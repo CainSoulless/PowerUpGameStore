@@ -76,10 +76,12 @@ function policyPasswordValidation() {
         if (passwordInput.length >= 6 || passwordInput <= 18) {
             return true;
         } else {
+            showInvalidPasswordMessage();
             alert("La contraseña debe tener entre 6 y 18 caracteres.")
             return false;
         }
     } else {
+        showInvalidPasswordMessage();
         alert("La contraseña debe de tener al menos un numero y letra mayuscula.")
         return false;
     }
@@ -93,16 +95,25 @@ function isEqualPassword(password, confirmPassword) {
     }
 
     if (password !== confirmPassword) {
-        document.getElementById('passwordConfirmationInput').classList.add('is-invalid');
-        document.getElementById('passwordConfirmationInput').classList.remove('is-valid');
-        document.getElementById('passwordInput').classList.add('is-invalid');
-        document.getElementById('passwordInput').classList.remove('is-valid');
+        showInvalidPasswordMessage()
         return false;
     } else {
-        document.getElementById('passwordConfirmationInput').classList.remove('is-invalid');
-        document.getElementById('passwordConfirmationInput').classList.add('is-valid');
-        document.getElementById('passwordInput').classList.remove('is-invalid');
-        document.getElementById('passwordInput').classList.add('is-valid');
+        showValidPasswordMessage()
         return true;
     }
+}
+
+function showInvalidPasswordMessage() {
+    document.getElementById('passwordConfirmationInput').classList.add('is-invalid');
+    document.getElementById('passwordConfirmationInput').classList.remove('is-valid');
+    document.getElementById('passwordInput').classList.add('is-invalid');
+    document.getElementById('passwordInput').classList.remove('is-valid');
+
+}
+
+function showValidPasswordMessage() {
+    document.getElementById('passwordConfirmationInput').classList.remove('is-invalid');
+    document.getElementById('passwordConfirmationInput').classList.add('is-valid');
+    document.getElementById('passwordInput').classList.remove('is-invalid');
+    document.getElementById('passwordInput').classList.add('is-valid');
 }
