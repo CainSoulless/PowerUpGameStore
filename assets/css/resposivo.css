@@ -11,7 +11,7 @@
     
     .destaques__principal,
     .destaques__categorias  {
-        background: url('../img/fortnite.jpg') center / cover no-repeat;
+        background: url('../img/dbd.jpg') center / cover no-repeat;
         grid-column: 1 / 5;
     }
 
