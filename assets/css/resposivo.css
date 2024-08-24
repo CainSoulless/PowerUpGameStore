@@ -11,7 +11,6 @@
     
     .destaques__principal,
     .destaques__categorias  {
-        background: url('../img/dbd.jpg') center / cover no-repeat;
         grid-column: 1 / 5;
     }
 
