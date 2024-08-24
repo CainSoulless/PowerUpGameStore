@@ -14,10 +14,10 @@
     align-items: center;
     /* display:flex; */
     grid-area: header;
-    padding: 0 2rem;
+    /* padding: 0 2rem; */
     background: #f1f1f1;
-    
 }
+
 .contenido {
     grid-area: contenido;
     padding: 0 2rem;
