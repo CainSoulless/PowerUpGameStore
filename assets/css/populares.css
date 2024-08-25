@@ -24,20 +24,41 @@
 }
 
 .populares__card___imagen {
-    /* object-fit: contain; */
+    object-fit: cover;
     grid-area: card-imagem;
     height: 100%;
     width: 100%;
 }
 
 .populares__card___base {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Asegura que el contenedor ocupe todo el espacio vertical disponible */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    padding: 10px; /* Ajusta según sea necesario */
+}
+
+.card {
+    flex: 1 1 auto; /* Permite que la card se expanda o contraiga según el contenido */
+    width: 100%; /* Asegura que la card ocupe todo el ancho disponible */
+}
+
+.row.justify-content-center.mb-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* .populares__card___base {
     display: grid;
     grid-area: card-corpo;
     grid-template-areas: 
         "card-header"
         "card-contenido";
     padding: .75rem;
-}
+} */
 
 .populares__card___titulo {
     color: #333333;
