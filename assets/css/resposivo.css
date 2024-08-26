@@ -26,7 +26,8 @@
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 600px) { */
+@media (min-width: 768px) and (max-width: 991px) {
     .menu__lista {
         padding-left: 0rem;
     }
@@ -39,13 +40,31 @@
     .destaques {
         padding-top: 1rem;
     }
+
+    .populares__card {
+        width: calc(33.33% - 1rem); /* Ajusta para que haya 3 cards por fila en tablets */
+    }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {...}
+/* @media only screen and (min-width: 768px) { */
+@media (min-width: 768px) and (max-width: 991px) {
+    /* .populares__card {
+        width: calc(100% - 1rem);
+    } */
+    .populares__card {
+        flex: 0 0 calc(33.33% - 1rem); /* 3 cards por fila en tablets con espacio entre ellas */
+    }
+
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {...}
+@media only screen and (min-width: 992px) {
+    .populares__card {
+        flex: 0 0 calc(20% - 1rem); /* 5 cards por fila en escritorio */
+    }
+
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {...} 
