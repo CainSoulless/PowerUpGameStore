@@ -94,10 +94,14 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
-# CREATE USER powerupuser IDENTIFIED BY powerupadmin;
-# GRANT CONNECT, RESOURCE TO powerup;
-# ALTER USER powerup DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
+
+# CREATE USER powerupuser IDENTIFIED BY powerupadmin
+# TEMPORARY TABLESPACE "TEMP";
+# ALTER USER powerupuser QUOTA UNLIMITED ON USERS;
+# GRANT "RESOURCE" TO powerupuser;
+# GRANT "CONNECT" TO powerupuser;
+# ALTER USER powerupuser DEFAULT ROLE "RESOURCE","CONNECT";
+
 
 DATABASES = {
     'default': {
