@@ -17,3 +17,6 @@ class Juego(models.Model):
 
     def __str__(self):
         return f'{self.nombre} (ID: {self.id}) - Categoría: {self.categoria.nombre}'
+
+    def get_id(self):
+        return f"ID: {self.nombre}" 
