@@ -94,10 +94,22 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+# CREATE USER powerupuser IDENTIFIED BY powerupadmin;
+# GRANT CONNECT, RESOURCE TO powerup;
+# ALTER USER powerup DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '127.0.0.1:1521/orcl',
+        'USER': 'powerupuser',
+        'PASSWORD': 'powerupadmin',
+        'TEST': {
+            'USER': 'default_test',
+            'TBLSPACE': 'default_test_tbls',
+            'TBLSPACE_TMP': 'default_test_tbls_tmp',
+        }
     }
 }
 
