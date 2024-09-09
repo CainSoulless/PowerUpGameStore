@@ -102,7 +102,9 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/orcl',
+        'NAME': 'xe',
+        'HOST': 'localhost',
+        'PORT': '1521',
         'USER': 'powerupuser',
         'PASSWORD': 'powerupadmin',
         'TEST': {
@@ -154,3 +156,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
