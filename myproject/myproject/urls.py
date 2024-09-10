@@ -17,14 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
+from myapp.views import register_account_view
 from django.conf import settings
 from django.conf.urls.static import static
     
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('register/', views.register_account, name='register_account'),
-    # Paths de emergencia por solicitud del profesor.
-    path('inicio', views.index, name='index'),
-    path('inicio/register/', views.register_account, name='register_account'),
+    # path('register/', views.register_account, name='register_account'),
+    path('register_account/', register_account_view, name='register_account'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
