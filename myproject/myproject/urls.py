@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from myapp import views
 from myapp.views import register_account_view
+from myapp.views import login_view
 from django.conf import settings
 from django.conf.urls.static import static
     
@@ -26,4 +27,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     # path('register/', views.register_account, name='register_account'),
     path('register_account/', register_account_view, name='register_account'),
+    path('login/', login_view, name='login'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

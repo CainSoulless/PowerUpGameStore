@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from .src.login.forms import RegistroForm 
 from django.contrib import messages
 
-
 # Create your views here.
 
 def index(request):
@@ -28,3 +27,15 @@ def register_account_view(request):
     else:
         form = RegistroForm()
     return render(request, 'register_account.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Credenciales inválidas. Inténtalo de nuevo.")
+    return render(request, 'index.html')

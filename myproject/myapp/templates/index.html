@@ -42,7 +42,24 @@
                     </li>
                 </div>
                 <!-- Registro y Login -->
+                 <!-- Registro y Login -->
                 <div class="d-flex">
+                    <li class="menu__item">
+                        <a class="menu__link" href="{% url 'register_account' %}">
+                            <i class="fas fa-user"></i>
+                            Registro
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <!-- Botón que abre el modal de login -->
+                        <a class="menu__link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login
+                        </a>
+                    </li>
+                </div>
+
+                <!-- <div class="d-flex">
                     <li class="menu__item">
                         <a class="menu__link" href="{% url 'register_account' %}">
                             <i class="fas fa-user"></i>
@@ -55,7 +72,7 @@
                             Login
                         </a>
                     </li>
-                </div>
+                </div> -->
             </ul>
         </nav>
     </header>
@@ -273,6 +290,33 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="rodapie">Todos los derechos reservados &copy; PowerUp Game Store </footer>
     <script src="{% static 'assets/js/fontawesome.all.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
