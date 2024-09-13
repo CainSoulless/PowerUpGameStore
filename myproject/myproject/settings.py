@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
 STATIC_URL = '/static/'
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'myapp/static')]
@@ -94,15 +96,6 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
-# CREATE USER powerupuser IDENTIFIED BY powerupadmin
-# TEMPORARY TABLESPACE "TEMP";
-# ALTER USER powerupuser QUOTA UNLIMITED ON USERS;
-# GRANT "RESOURCE" TO powerupuser;
-# GRANT "CONNECT" TO powerupuser;
-# ALTER USER powerupuser DEFAULT ROLE "RESOURCE","CONNECT";
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
@@ -166,3 +159,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

@@ -5,8 +5,6 @@ from django.shortcuts import render, redirect
 from .src.login.forms import RegistroForm 
 from django.contrib import messages
 
-# Create your views here.
-
 def index(request):
     return render(request, 'index.html')
 
@@ -23,9 +21,11 @@ def register_account_view(request):
             # Iniciar sesión automáticamente
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('home')  # Redirigir a la página de inicio
+            messages.success(request, "Sesión iniciada")
+            return redirect('/')  # Redirigir a la página de inicio
     else:
         form = RegistroForm()
+        messages.error(request, "No se pudo iniciar sesión")
     return render(request, 'register_account.html', {'form': form})
 
 def login_view(request):
@@ -35,7 +35,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            messages.success(request, "Sesión iniciada")
+            return redirect('/')
         else:
             messages.error(request, "Credenciales inválidas. Inténtalo de nuevo.")
     return render(request, 'index.html')
