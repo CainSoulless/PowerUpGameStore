@@ -24,6 +24,20 @@
                                 {% csrf_token %}
                                 {{ form.non_field_errors }}
 
+                                {% if form.errors %}
+  <ul>
+    {% for field in form %}
+      {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
                                 <div class="col-md-4">
                                     <label for="fullNameInput" class="form-label">Nombre Completo</label>
                                     <input type="text" class="form-control" id="fullNameInput" name="full_name" required>

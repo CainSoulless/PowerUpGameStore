@@ -17,8 +17,24 @@ class RegistroForm(UserCreationForm):
         user = super(RegistroForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['full_name']
+        
         if commit:
             user.save()
-            # Crear el UserProfile relacionado
-            UserProfile.objects.create(user=user, birthday=self.cleaned_data['birthday'], address=self.cleaned_data['address'])
+    
+            # Evitar la duplicación de perfiles
+            if not UserProfile.objects.filter(user=user).exists():
+                UserProfile.objects.create(user=user, birthday=self.cleaned_data['birthday'], address=self.cleaned_data['address'])
+            else:
+                raise forms.ValidationError("El perfil de usuario ya existe.")
+        
         return user
+
+    # def save(self, commit=True):
+    #     user = super(RegistroForm, self).save(commit=False)
+    #     user.email = self.cleaned_data['email']
+    #     user.first_name = self.cleaned_data['full_name']
+    #     if commit:
+    #         user.save()
+    #         # Crear el UserProfile relacionado
+    #         UserProfile.objects.create(user=user, birthday=self.cleaned_data['birthday'], address=self.cleaned_data['address'])
+    #     return user

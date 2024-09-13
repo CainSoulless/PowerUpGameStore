@@ -15,18 +15,29 @@ def register_account_view(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            # Solo se llama una vez a form.save()
+            user = form.save(commit=False)  # Evita guardarlo inmediatamente
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            
+            # Guarda el usuario antes de autenticar
+            user.save()
+            
             # Iniciar sesión automáticamente
             user = authenticate(username=username, password=password)
-            login(request, user)
-            messages.success(request, "Sesión iniciada")
-            return redirect('/')  # Redirigir a la página de inicio
+            if user is not None:
+                login(request, user)
+                messages.success(request, "Sesión iniciada")
+                return redirect('/')  # Redirigir a la página de inicio
+            else:
+                messages.error(request, "No se pudo autenticar al usuario.")
+        else:
+            messages.error(request, "No se pudo registrar el usuario. Revisa los datos ingresados.")
     else:
-        form = RegistroForm()
-        messages.error(request, "No se pudo iniciar sesión")
+        form = RegistroForm()  # Si es un GET, simplemente se carga el formulario vacío
+
     return render(request, 'register_account.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
