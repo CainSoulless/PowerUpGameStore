@@ -70,3 +70,7 @@ def agregar_juego(request):
 def lista_juegos(request):
     juegos = Juego.objects.all()
     return render(request, 'lista_juegos.html', {'juegos': juegos})
+
+def index(request):
+    juegos = Juego.objects.all()[:10]  # Obtiene todos los juegos
+    return render(request, 'index.html', {'juegos': juegos})

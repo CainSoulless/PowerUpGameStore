@@ -83,155 +83,44 @@
                         </button>
                     </div>
                 </div>
-                <div class="populares__contenido">
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/horror.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="populares__card___header">
-                                <h5 class="populares__card___titulo">Horror</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/action.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="populares__card___header">
-                                <h5 class="populares__card___titulo">Acción</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/aventura.webp' %}">
-                        <div class="populares__card___base">
-                            <div class="populares__card___header">
-                                <h5 class="populares__card___titulo">Aventura</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/fightjpg.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="populares__card___header">
-                                <h5 class="populares__card___titulo">Fighting</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="populares__items">
-                <div class="populares__info">
-                    <div class="populares__header">
-                        <h4 id="populares__titulo" class="populares__titulo">
-                            <i class="populares__icon fas fa-list-ol"></i>
-                            Juegos populares
-                        </h4>
-                        <button class="populares__boton">
-                            <i class="fas fa-th"></i>
-                            Ver todos
-                        </button>
-                    </div>
-                </div>
                 <div class="populares__contenido row">
-                    <!-- Juegos -->
-                    <!-- DBD -->
+                    {% for juego in juegos %}
                     <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/dbd.jpg' %}">
+                        <img class="populares__card___imagen" src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}">
                         <div class="populares__card___base">
                             <div class="row justify-content-center mb-3">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Dead by Daylight</h5>
-                                        <p class="card-text">Es un juego de horror de multijugador (4 contra 1) en el
-                                            que un jugador representa el rol del asesino despiadado y los 4 restantes
-                                            juegan como supervivientes que ...</p>
+                                        <h5 class="card-title">{{ juego.nombre }}</h5>
+                                        <p class="card-text">{{ juego.descripcion|truncatewords:20 }}</p>
                                         <div class="text-center">
-                                            <a href="#" class="btn btn-primary">CLP$ 8.500</a>
+                                            <a href="#" class="btn btn-primary">CLP$ {{ juego.precio }}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/red.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="row justify-content-center mb-3">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Red Dead Redemption 2</h5>
-                                        <p class="card-text">Con más de 175 premios al Juego del año y más de 250
-                                            valoraciones perfectas, Red Dead Redemption 2 es la épica historia de Arthur
-                                            Morgan y la banda de Van der Linde, que huyen por toda América en el ...
-                                        </p>
-                                        <div class="text-center">
-                                            <a href="#" class="btn btn-primary">CLP$ 39.990</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/helldivers.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="row justify-content-center mb-3">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">HELLDIVERS™ 2</h5>
-                                        <p class="card-text">La última línea de ataque de la galaxia. Alístate en los
-                                            Helldivers y únete a la lucha por la libertad en una galaxia hostil en un
-                                            juego de disparos en tercera persona rápido, frenético y feroz. </p>
-                                        <div class="text-center">
-                                            <a href="#" class="btn btn-primary">CLP$ 28.000</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/cod-mw3.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="row justify-content-center mb-3">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Call of Duty: Modern Warfare III</h5>
-                                        <p class="card-text">En la secuela directa del exitoso juego Call of Duty®:
-                                            Modern Warfare® II, el capitán Price y la Fuerza operativa 141 se enfrentan
-                                            a la amenaza definitiva.</p>
-                                        <div class="text-center">
-                                            <a href="#" class="btn btn-primary">CLP$ 54.990</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="populares__card col-12 col-md-4 col-lg-2">
-                        <img class="populares__card___imagen" src="{% static 'assets/img/bus.jpg' %}">
-                        <div class="populares__card___base">
-                            <div class="row justify-content-center mb-3">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Fernbus Simulator</h5>
-                                        <p class="card-text">El Fernbus Coach Simulator es el primer simulador de los
-                                            populares autobuses de largo recorrido. Gracias a la colaboración con
-                                            Flixbus el Fernbus Coach Simulator muestra la vida diaria de ...</p>
-                                        <div class="text-center">
-                                            <a href="#" class="btn btn-primary">CLP$ 8.045</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
+            </div>
+            <!-- Paginación -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if juegos.has_previous %}
+                        <a href="?page=1">&laquo; primera</a>
+                        <a href="?page={{ juegos.previous_page_number }}">anterior</a>
+                    {% endif %}
 
+                    <span class="current">
+                        Página {{ juegos.number }} de {{ juegos.paginator.num_pages }}.
+                    </span>
+
+                    {% if juegos.has_next %}
+                        <a href="?page={{ juegos.next_page_number }}">siguiente</a>
+                        <a href="?page={{ juegos.paginator.num_pages }}">última &raquo;</a>
+                    {% endif %}
+                </span>
             </div>
         </section>
     </main>
