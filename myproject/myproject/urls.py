@@ -19,6 +19,7 @@ from django.urls import path
 from myapp import views
 from myapp.views import register_account_view
 from myapp.views import login_view
+from myapp.views import ver_carrito
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -33,4 +34,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('agregar_juego/', views.agregar_juego, name='agregar_juego'),
     path('juegos/', views.lista_juegos, name='lista_juegos'),
+    path('carrito/', ver_carrito, name='carrito'),
+    path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
+    path('carrito/eliminar/<int:juego_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('carrito/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
