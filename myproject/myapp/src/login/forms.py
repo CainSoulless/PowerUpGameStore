@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from myapp.models import UserProfile
+from myapp.models import Juego
 
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -29,12 +30,7 @@ class RegistroForm(UserCreationForm):
         
         return user
 
-    # def save(self, commit=True):
-    #     user = super(RegistroForm, self).save(commit=False)
-    #     user.email = self.cleaned_data['email']
-    #     user.first_name = self.cleaned_data['full_name']
-    #     if commit:
-    #         user.save()
-    #         # Crear el UserProfile relacionado
-    #         UserProfile.objects.create(user=user, birthday=self.cleaned_data['birthday'], address=self.cleaned_data['address'])
-    #     return user
+class JuegoForm(forms.ModelForm):
+    class Meta:
+        model = Juego
+        fields = ['nombre', 'descripcion', 'imagen', 'categoria']

@@ -1,9 +1,11 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .src.login.forms import RegistroForm 
 from django.contrib import messages
+from .models import Juego
+from myapp.src.login.forms import JuegoForm
+
 
 def index(request):
     return render(request, 'index.html')
@@ -51,3 +53,20 @@ def login_view(request):
         else:
             messages.error(request, "Credenciales inválidas. Inténtalo de nuevo.")
     return render(request, 'index.html')
+
+
+def agregar_juego(request):
+    if request.method == 'POST':
+        form = JuegoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_juegos')  # Redirigir a la lista de juegos
+    else:
+        form = JuegoForm()
+
+    return render(request, 'agregar_juego.html', {'form': form})
+
+
+def lista_juegos(request):
+    juegos = Juego.objects.all()
+    return render(request, 'lista_juegos.html', {'juegos': juegos})

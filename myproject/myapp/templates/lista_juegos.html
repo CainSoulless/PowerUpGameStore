@@ -1,0 +1,11 @@
+<h1>Lista de Juegos</h1>
+<ul>
+    {% for juego in juegos %}
+        <li>
+            <h2>{{ juego.nombre }}</h2>
+            <img src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}">
+            <p>{{ juego.descripcion }}</p>
+            <p>Categoría: {{ juego.categoria.nombre }}</p>
+        </li>
+    {% endfor %}
+</ul>
