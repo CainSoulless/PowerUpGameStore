@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .src.login.forms import RegistroForm 
 from django.contrib import messages
 from .models import Juego
@@ -74,3 +74,58 @@ def lista_juegos(request):
 def index(request):
     juegos = Juego.objects.all()[:10]  # Obtiene todos los juegos
     return render(request, 'index.html', {'juegos': juegos})
+
+def agregar_al_carrito(request, juego_id):
+    # Obtener el producto o devolver un error 404 si no existe
+    juego = get_object_or_404(Juego, id=juego_id)
+    
+    # Convertir el producto_id a cadena, ya que las claves en la sesión son strings
+    juego_id_str = str(juego_id)
+    
+    # Obtener el carrito de la sesión, si no existe, inicializarlo como un diccionario vacío
+    carrito = request.session.get('carrito', {})
+    
+    # Si el producto ya está en el carrito, incrementar la cantidad
+    if juego_id_str in carrito:
+        carrito[juego_id_str]['cantidad'] += 1
+    else:
+        # Agregar el producto al carrito con la cantidad inicial de 1
+        carrito[juego_id_str] = {
+            'nombre': juego.nombre,
+            'precio': float(juego.precio),
+            'cantidad': 1,
+        }
+    
+    # Guardar el carrito en la sesión
+    request.session['carrito'] = carrito
+    
+    return redirect('lista_juegos') #Cambiar por lista de juegos
+
+@login_required
+def ver_carrito(request):
+    # Obtener el carrito de la sesión, si no existe, inicializarlo como un diccionario vacío
+    carrito = request.session.get('carrito', {})
+    
+    total = sum(item['precio'] * item['cantidad'] for item in carrito.values())  # Calcular el total
+    
+    return render(request, 'carrito.html', {'carrito': carrito, 'total': total})
+
+def eliminar_del_carrito(request, juego_id):
+    # Convertir el producto_id a cadena
+    juego_id_str = str(juego_id)
+    
+    # Obtener el carrito de la sesión
+    carrito = request.session.get('carrito', {})
+    
+    # Si el producto está en el carrito, eliminarlo
+    if juego_id_str in carrito:
+        del carrito[juego_id_str]
+    
+    # Actualizar el carrito en la sesión
+    request.session['carrito'] = carrito
+    
+    return redirect('carrito')
+
+def vaciar_carrito(request):
+    request.session['carrito'] = {}  # Vaciar el carrito en la sesión
+    return redirect('carrito')
