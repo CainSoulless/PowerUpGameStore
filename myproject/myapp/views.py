@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .src.login.forms import RegistroForm 
 from django.contrib import messages
+from django.http import JsonResponse
 from .models import Juego
 from myapp.src.login.forms import JuegoForm
 
@@ -76,30 +77,25 @@ def index(request):
     return render(request, 'index.html', {'juegos': juegos})
 
 def agregar_al_carrito(request, juego_id):
-    # Obtener el producto o devolver un error 404 si no existe
     juego = get_object_or_404(Juego, id=juego_id)
-    
-    # Convertir el producto_id a cadena, ya que las claves en la sesión son strings
     juego_id_str = str(juego_id)
     
-    # Obtener el carrito de la sesión, si no existe, inicializarlo como un diccionario vacío
     carrito = request.session.get('carrito', {})
     
-    # Si el producto ya está en el carrito, incrementar la cantidad
     if juego_id_str in carrito:
         carrito[juego_id_str]['cantidad'] += 1
     else:
-        # Agregar el producto al carrito con la cantidad inicial de 1
         carrito[juego_id_str] = {
             'nombre': juego.nombre,
             'precio': float(juego.precio),
             'cantidad': 1,
         }
     
-    # Guardar el carrito en la sesión
     request.session['carrito'] = carrito
-    
-    return redirect('lista_juegos') #Cambiar por lista de juegos
+
+    # Retorna una respuesta JSON
+    return JsonResponse({'message': 'Juego añadido al carrito con éxito'})
+
 
 @login_required
 def ver_carrito(request):
@@ -129,3 +125,18 @@ def eliminar_del_carrito(request, juego_id):
 def vaciar_carrito(request):
     request.session['carrito'] = {}  # Vaciar el carrito en la sesión
     return redirect('carrito')
+
+def detalle_juego(request, juego_id):
+    juego = get_object_or_404(Juego, id=juego_id)
+    
+    # Verificar si hay un juego agregado al carrito en la sesión
+    juego_agregado = request.session.get('juego_agregado', False)
+    
+    # Eliminar la variable de sesión después de usarla
+    if 'juego_agregado' in request.session:
+        del request.session['juego_agregado']
+    
+    return render(request, 'detalle_juego.html', {
+        'juego': juego,
+        'juego_agregado': juego_agregado
+    })

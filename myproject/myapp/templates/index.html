@@ -75,7 +75,7 @@
                     <div class="populares__header">
                         <h4 class="populares__titulo">
                             <i class="populares__icon fab fa-buromobelexperte"></i>
-                            Categorías populares
+                            Juegos populares
                         </h4>
                         <button class="populares__boton">
                             <i class="fas fa-th"></i>
@@ -84,6 +84,31 @@
                     </div>
                 </div>
                 <div class="populares__contenido row">
+                    {% for juego in juegos %}
+                    <div class="populares__card col-12 col-md-4 col-lg-2">
+                        <a href="{% url 'detalle_juego' juego.id %}">
+                            <img class="populares__card___imagen" src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}">
+                        </a>
+                        <div class="populares__card___base">
+                            <div class="row justify-content-center mb-3">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="{% url 'detalle_juego' juego.id %}" class="text-dark text-decoration-none">{{ juego.nombre }}</a>
+                                        </h5>
+                                        <p class="card-text">{{ juego.descripcion|truncatewords:20 }}</p>
+                                        <div class="text-center">
+                                            <a href="#" class="btn btn-primary">CLP$ {{ juego.precio }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- <div class="populares__contenido row">
                     {% for juego in juegos %}
                     <div class="populares__card col-12 col-md-4 col-lg-2">
                         <img class="populares__card___imagen" src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}">
@@ -102,7 +127,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                </div>
+                </div> -->
             </div>
             <!-- Paginación -->
             <div class="pagination">
@@ -124,32 +149,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{% url 'login' %}">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <footer class="rodapie">Todos los derechos reservados &copy; PowerUp Game Store </footer>
     <script src="{% static 'assets/js/fontawesome.all.min.js' %}"></script>

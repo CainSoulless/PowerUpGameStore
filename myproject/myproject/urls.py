@@ -38,4 +38,6 @@ urlpatterns = [
     path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('carrito/eliminar/<int:juego_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('carrito/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
+    path('juego/<int:juego_id>/', views.detalle_juego, name='detalle_juego'),
+    path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,8 +1,10 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg menu d-flex pl-lg-4 ">
     <ul class="menu__lista w-100 pl-0 d-flex align-items-center justify-content-between">
         <div class="d-flex">
             <li class="menu__item">
-                <a class="menu__link activo" href="#">
+                <a class="menu__link activo" href="{% url 'index' %}">
                     <i class="fas fa-home"></i>
                     Inicio
                 </a>
@@ -23,6 +25,14 @@
         
         <div class="d-flex">
             {% if user.is_authenticated %}
+
+                <li class="menu__item">
+                    <a href="{% url 'carrito' %}" class="menu__link btn btn-link">
+                        <i class="fas fa-cart-plus"></i>
+                        Carrito
+                    </a>
+                </li>
+
                 <li class="menu__item">
                     <button type="submit" class="menu__link btn btn-link">
                         <i class="fas fa-user"></i>
@@ -38,13 +48,6 @@
                             Logout
                         </button>
                     </form>
-                </li>
-
-                <li class="menu_item">
-                    <a clas="menu_link" href="{% url 'carrito' %}">
-                        <i class="fas fa-user"></i>
-                        Carrito
-                    </a>
                 </li>
 
             {% else %}
@@ -65,3 +68,29 @@
         </div>
     </ul>
 </nav>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

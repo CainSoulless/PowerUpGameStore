@@ -23,7 +23,7 @@
             <td>{{ item.cantidad }}</td>
             <td>{{ item.precio|floatformat:2 }}</td>
             <td>
-                <a href="{% url 'eliminar_del_carrito' producto_id %}" class="btn btn-danger">Eliminar</a>
+                <a href="{% url 'eliminar_del_carrito' juego_id %}" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         {% empty %}

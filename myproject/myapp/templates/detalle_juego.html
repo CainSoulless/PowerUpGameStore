@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ juego.nombre }}{% endblock %}
+
+{% block content %}
+<main class="contenido container mt-4">
+    <!-- Sección principal con imagen y detalles del juego -->
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-4">{{ juego.nombre }}</h1>
+            <p class="lead">{{ juego.descripcion }}</p>
+            <p class="h4 text-success">Precio: CLP$ {{ juego.precio }}</p>
+
+            <!-- Formulario para agregar al carrito -->
+            <form id="carritoForm" method="post" action="{% url 'agregar_al_carrito' juego.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg mt-3">
+                    <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                </button>
+            </form>
+
+            <!-- Botones para compartir en redes sociales -->
+            <div class="mt-4">
+                <h5>¡Comparte este juego!</h5>
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <a href="#" class="btn btn-outline-info">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+                <a href="#" class="btn btn-outline-success">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de carrito -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Producto añadido al carrito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Desea proceder a pagar ahora o seguir comprando?
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'carrito' %}" class="btn btn-success">Pagar ahora</a>
+                    <a href="{% url 'index' %}" class="btn btn-secondary">Seguir comprando</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de progreso de popularidad o rating -->
+    <div class="mt-4">
+        <h5>Valoración de los usuarios</h5>
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                85% de valoración positiva
+            </div>
+        </div>
+    </div>
+
+    <!-- Reseñas de usuarios -->
+    <div class="mt-5">
+        <h4 class="mb-4">Reseñas de Usuarios</h4>
+        <div class="media">
+            <img src="https://via.placeholder.com/50" class="mr-3 rounded-circle" alt="User 1">
+            <div class="media-body">
+                <h5 class="mt-0">Usuario 1</h5>
+                ¡Increíble juego! Lo recomiendo a todos los fanáticos.
+            </div>
+        </div>
+        <div class="media mt-4">
+            <img src="https://via.placeholder.com/50" class="mr-3 rounded-circle" alt="User 2">
+            <div class="media-body">
+                <h5 class="mt-0">Usuario 2</h5>
+                Gráficos impresionantes, pero la jugabilidad podría mejorar.
+            </div>
+        </div>
+    </div>
+
+    <!-- Especificaciones del juego -->
+    <div class="mt-5">
+        <h4>Especificaciones del Juego</h4>
+        <table class="table table-bordered">
+            <tr>
+                <th>Plataforma</th>
+                <td>PC, PS5, Xbox</td>
+            </tr>
+            <tr>
+                <th>Género</th>
+                <td>Aventura, Acción</td>
+            </tr>
+            <tr>
+                <th>Requisitos Mínimos</th>
+                <td>Procesador i5, 8GB RAM, Tarjeta Gráfica GTX 960</td>
+            </tr>
+            <tr>
+                <th>Requisitos Recomendados</th>
+                <td>Procesador i7, 16GB RAM, Tarjeta Gráfica GTX 1060</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Juegos relacionados -->
+    <div class="mt-5">
+        <h4>Juegos Relacionados</h4>
+        <div class="row">
+            {% for juego_relacionado in juegos_relacionados %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ juego_relacionado.imagen.url }}" class="card-img-top" alt="{{ juego_relacionado.nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ juego_relacionado.nombre }}</h5>
+                        <a href="{% url 'detalle_juego' juego_relacionado.id %}" class="btn btn-primary">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+<!-- Mostrar el modal al agregar un juego al carrito -->
+{% load static %}
+<script src="{% static 'assets/js/modal_agregar_carrito.js' %}"></script>
+
+
+{% endblock %}
