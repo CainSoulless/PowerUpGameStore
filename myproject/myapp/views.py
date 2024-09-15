@@ -78,23 +78,20 @@ def index(request):
 
 def agregar_al_carrito(request, juego_id):
     juego = get_object_or_404(Juego, id=juego_id)
-    juego_id_str = str(juego_id)
-    
     carrito = request.session.get('carrito', {})
-    
-    if juego_id_str in carrito:
-        carrito[juego_id_str]['cantidad'] += 1
+
+    if str(juego_id) in carrito:
+        carrito[str(juego_id)]['cantidad'] += 1
     else:
-        carrito[juego_id_str] = {
+        carrito[str(juego_id)] = {
+            'id': juego.id,  # Asegúrate de almacenar el ID correctamente
             'nombre': juego.nombre,
             'precio': float(juego.precio),
             'cantidad': 1,
         }
-    
-    request.session['carrito'] = carrito
 
-    # Retorna una respuesta JSON
-    return JsonResponse({'message': 'Juego añadido al carrito con éxito'})
+    request.session['carrito'] = carrito
+    return redirect('ver_carrito')
 
 
 @login_required
@@ -107,20 +104,30 @@ def ver_carrito(request):
     return render(request, 'carrito.html', {'carrito': carrito, 'total': total})
 
 def eliminar_del_carrito(request, juego_id):
-    # Convertir el producto_id a cadena
-    juego_id_str = str(juego_id)
-    
-    # Obtener el carrito de la sesión
     carrito = request.session.get('carrito', {})
+
+    # Verifica si el juego está en el carrito y elimínalo
+    if str(juego_id) in carrito:
+        del carrito[str(juego_id)]
+        request.session['carrito'] = carrito
+
+    return redirect('ver_carrito')
+
+# def eliminar_del_carrito(request, juego_id):
+#     # Convertir el producto_id a cadena
+#     juego_id_str = str(juego_id)
     
-    # Si el producto está en el carrito, eliminarlo
-    if juego_id_str in carrito:
-        del carrito[juego_id_str]
+#     # Obtener el carrito de la sesión
+#     carrito = request.session.get('carrito', {})
     
-    # Actualizar el carrito en la sesión
-    request.session['carrito'] = carrito
+#     # Si el producto está en el carrito, eliminarlo
+#     if juego_id_str in carrito:
+#         del carrito[juego_id_str]
     
-    return redirect('carrito')
+#     # Actualizar el carrito en la sesión
+#     request.session['carrito'] = carrito
+    
+#     return redirect('carrito')
 
 def vaciar_carrito(request):
     request.session['carrito'] = {}  # Vaciar el carrito en la sesión
@@ -140,3 +147,7 @@ def detalle_juego(request, juego_id):
         'juego': juego,
         'juego_agregado': juego_agregado
     })
+
+@login_required
+def perfil_usuario(request):
+    return render(request, 'perfil_usuario.html', {'usuario': request.user})
