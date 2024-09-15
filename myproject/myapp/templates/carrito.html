@@ -2,40 +2,56 @@
 
 {% block title %}Carrito de Compras{% endblock %}
 
+{% block body_class%} app {% endblock %}
+
 {% block content %}
-<h2>Carrito de Compras</h2>
+<section class="gradient-custom ">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Carrito de Compras</h3>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Juego</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for juego_id, item in carrito.items %}
-        <tr>
-            <td>{{ item.nombre }}</td>
-            <td>{{ item.precio }}</td>
-            <td>{{ item.cantidad }}</td>
-            <td>{{ item.precio|floatformat:2 }}</td>
-            <td>
-                <a href="{% url 'eliminar_del_carrito' juego_id %}" class="btn btn-danger">Eliminar</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No hay productos en el carrito.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Juego</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for juego_id, item in carrito.items %}
+                                <tr>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>{{ item.precio }}</td>
+                                    <td>{{ item.cantidad }}</td>
+                                    <td>{{ item.precio|floatformat:2 }}</td>
+                                    <td>
+                                        <a href="{% url 'eliminar_del_carrito' juego_id %}" class="btn btn-danger">Eliminar</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5">No hay productos en el carrito.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
-<p>Total a pagar: ${{ total|floatformat:2 }}</p>
+                        <p>Total a pagar: ${{ total|floatformat:2 }}</p>
 
-<a href="{% url 'vaciar_carrito' %}" class="btn btn-warning">Vaciar Carrito</a>
-<a href="{% url 'index' %}" class="btn btn-primary">Seguir comprando</a>
+                        <a href="{% url 'vaciar_carrito' %}" class="btn btn-primary">Vaciar Carrito</a>
+                        <a href="{% url 'index' %}" class="btn btn-primary">Seguir comprando</a>
+                        <a href="{% url 'vaciar_carrito' %}" class="btn btn-warning">Realizar compra</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
