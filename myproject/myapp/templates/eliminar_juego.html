@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Juego{% endblock %}
+
+{% block content %}
+<main class="contenido container mt-4">
+    <h1 class="display-4">¿Estás seguro de que deseas eliminar este juego?</h1>
+    
+    <p>Juego: {{ juego.nombre }}</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'gestionar_juegos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</main>
+{% endblock %}

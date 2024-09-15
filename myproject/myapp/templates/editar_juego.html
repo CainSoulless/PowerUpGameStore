@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Juego{% endblock %}
+
+{% block content %}
+<main class="contenido container mt-4">
+    <h1 class="display-4">Editar Juego: {{ juego.nombre }}</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'gestionar_juegos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</main>
+{% endblock %}

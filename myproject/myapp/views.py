@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import Juego
 from myapp.src.login.forms import JuegoForm
-
+from django.contrib.auth.decorators import user_passes_test
 
 def index(request):
     return render(request, 'index.html')
@@ -152,3 +152,33 @@ def detalle_juego(request, juego_id):
 @login_required
 def perfil_usuario(request):
     return render(request, 'perfil_usuario.html', {'usuario': request.user})
+
+@user_passes_test(lambda u: u.is_superuser)
+def gestionar_juegos(request):
+    # Lógica para gestionar juegos (crear, actualizar, eliminar)
+    juegos = Juego.objects.all()  # Suponiendo que tienes un modelo llamado Juego
+    return render(request, 'gestionar_juegos.html', {'juegos': juegos})
+
+@user_passes_test(lambda u: u.is_superuser)
+def editar_juego(request, juego_id):
+    juego = get_object_or_404(Juego, id=juego_id)
+    
+    if request.method == 'POST':
+        form = JuegoForm(request.POST, instance=juego)
+        if form.is_valid():
+            form.save()
+            return redirect('gestionar_juegos')  # Redirige de nuevo a la página de gestión
+    else:
+        form = JuegoForm(instance=juego)
+
+    return render(request, 'editar_juego.html', {'form': form, 'juego': juego})
+
+@user_passes_test(lambda u: u.is_superuser)
+def eliminar_juego(request, juego_id):
+    juego = get_object_or_404(Juego, id=juego_id)
+    
+    if request.method == 'POST':
+        juego.delete()
+        return redirect('gestionar_juegos')  # Redirige de nuevo a la página de gestión
+    
+    return render(request, 'eliminar_juego.html', {'juego': juego})

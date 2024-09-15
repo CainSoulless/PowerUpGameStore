@@ -1,37 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Perfil de {{ usuario.username }}{% endblock %}
+{% block title %}Perfil de {{ user.username }}{% endblock %}
 
 {% block content %}
 <main class="contenido container mt-4">
-    <!-- Sección principal con la información del usuario -->
     <div class="row">
-        <div class="col-md-6">
-            <img src="https://via.placeholder.com/150" alt="Imagen de perfil" class="img-fluid rounded shadow">
+        <div class="col-md-4">
+            <img src="https://via.placeholder.com/150" alt="{{ user.username }}" class="img-fluid rounded-circle">
         </div>
-        <div class="col-md-6">
-            <h1 class="display-4">{{ usuario.username }}</h1>
-            <p class="lead">Nombre completo: {{ usuario.first_name }} {{ usuario.last_name }}</p>
-            <p class="h4">Correo electrónico: {{ usuario.email }}</p>
-
-            <!-- Mostrar el tipo de usuario -->
-            <p class="h4">Tipo de usuario: 
-                {% if usuario.is_staff %}
+        <div class="col-md-8">
+            <h1 class="display-4">{{ user.username }}</h1>
+            <p class="lead">Correo electrónico: {{ user.email }}</p>
+            <p class="lead">Fecha de registro: {{ user.date_joined }}</p>
+            <p class="lead">
+                Tipo de usuario: 
+                {% if user.is_superuser %}
                     Administrador
                 {% else %}
                     Cliente
                 {% endif %}
             </p>
 
-            <!-- Botón para editar el perfil -->
-            <a href="#" class="btn btn-primary btn-lg mt-3">
-                <i class="fas fa-edit"></i> Editar perfil
+            <!-- Mostrar botón para gestionar juegos solo si el usuario es administrador -->
+            {% if user.is_superuser %}
+            <a href="{% url 'gestionar_juegos' %}" class="btn btn-warning mt-3">
+                <i class="fas fa-cogs"></i> Gestionar Juegos
             </a>
-
-            <!-- Botón para cerrar sesión -->
-            <a href="{% url 'logout' %}" class="btn btn-danger btn-lg mt-3">
-                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-            </a>
+            {% endif %}
         </div>
     </div>
 </main>

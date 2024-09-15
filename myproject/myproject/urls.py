@@ -28,7 +28,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    # path('register/', views.register_account, name='register_account'),
     path('register_account/', register_account_view, name='register_account'),
     path('login/', login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -36,9 +35,12 @@ urlpatterns = [
     path('juegos/', views.lista_juegos, name='lista_juegos'),
     path('carrito/', ver_carrito, name='carrito'),
     path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
-        path('carrito/eliminar/<int:juego_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('carrito/eliminar/<int:juego_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('carrito/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
     path('juego/<int:juego_id>/', views.detalle_juego, name='detalle_juego'),
     path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+    path('gestionar-juegos/', views.gestionar_juegos, name='gestionar_juegos'),
+    path('gestionar-juegos/editar/<int:juego_id>/', views.editar_juego, name='editar_juego'),
+    path('gestionar-juegos/eliminar/<int:juego_id>/', views.eliminar_juego, name='eliminar_juego'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
