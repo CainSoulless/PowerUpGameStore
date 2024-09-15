@@ -76,6 +76,7 @@ def index(request):
     juegos = Juego.objects.all()[:10]  # Obtiene todos los juegos
     return render(request, 'index.html', {'juegos': juegos})
 
+@login_required
 def agregar_al_carrito(request, juego_id):
     juego = get_object_or_404(Juego, id=juego_id)
     carrito = request.session.get('carrito', {})
