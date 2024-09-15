@@ -17,7 +17,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="{% block body_class %}  {% endblock %}">
     <header class="encabezado pl-1">
       {% include 'nav.html' %}
     </header>
