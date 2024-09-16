@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar Juego{% endblock %}
+
+{% block content %}
+<main class="contenido container mt-4">
+    <h1 class="display-4 text-center">Agregar Nuevo Juego</h1>
+    
+    <!-- Formulario para agregar un nuevo juego -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Nombre del juego -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Juego</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del juego" required>
+                        </div>
+
+                        <!-- Descripción del juego -->
+                        <div class="form-group mt-3">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Ingrese una descripción" required></textarea>
+                        </div>
+
+                        <!-- Precio del juego -->
+                        <div class="form-group mt-3">
+                            <label for="precio">Precio (CLP)</label>
+                            <input type="number" class="form-control" id="precio" name="precio" placeholder="Ingrese el precio del juego" required>
+                        </div>
+
+                        <!-- Categoría del juego -->
+                        <div class="form-group mt-3">
+                            <label for="categoria">Categoría</label>
+                            <select class="form-control" id="categoria" name="categoria" required>
+                                <option value="">Seleccione una categoría</option>
+                                {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Imagen del juego -->
+                        <div class="form-group mt-3">
+                            <label for="imagen">Imagen del Juego</label>
+                            <input type="file" class="form-control" id="imagen" name="imagen" required>
+                        </div>
+
+                        <!-- Botón de envío -->
+                        <div class="form-group mt-4 text-center">
+                            <button type="submit" class="btn btn-success btn-lg">Agregar Juego</button>
+                            <a href="{% url 'gestionar_juegos' %}" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

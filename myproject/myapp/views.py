@@ -5,6 +5,7 @@ from .src.login.forms import RegistroForm
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import Juego
+from .models import Categoria
 from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 
@@ -55,17 +56,6 @@ def login_view(request):
             messages.error(request, "Credenciales inválidas. Inténtalo de nuevo.")
     return render(request, 'index.html')
 
-
-def agregar_juego(request):
-    if request.method == 'POST':
-        form = JuegoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_juegos')  # Redirigir a la lista de juegos
-    else:
-        form = JuegoForm()
-
-    return render(request, 'agregar_juego.html', {'form': form})
 
 
 def lista_juegos(request):
@@ -155,9 +145,8 @@ def perfil_usuario(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def gestionar_juegos(request):
-    # Lógica para gestionar juegos (crear, actualizar, eliminar)
     juegos = Juego.objects.all()  # Suponiendo que tienes un modelo llamado Juego
-    return render(request, 'gestionar_juegos.html', {'juegos': juegos})
+    return render(request, 'admin_panel/gestionar_juegos.html', {'juegos': juegos})
 
 @user_passes_test(lambda u: u.is_superuser)
 def editar_juego(request, juego_id):
@@ -167,11 +156,11 @@ def editar_juego(request, juego_id):
         form = JuegoForm(request.POST, instance=juego)
         if form.is_valid():
             form.save()
-            return redirect('gestionar_juegos')  # Redirige de nuevo a la página de gestión
+            return redirect('admin_panel/gestionar_juegos')  # Redirige de nuevo a la página de gestión
     else:
         form = JuegoForm(instance=juego)
 
-    return render(request, 'editar_juego.html', {'form': form, 'juego': juego})
+    return render(request, 'admin_panel/editar_juego.html', {'form': form, 'juego': juego})
 
 @user_passes_test(lambda u: u.is_superuser)
 def eliminar_juego(request, juego_id):
@@ -179,6 +168,23 @@ def eliminar_juego(request, juego_id):
     
     if request.method == 'POST':
         juego.delete()
-        return redirect('gestionar_juegos')  # Redirige de nuevo a la página de gestión
+        return redirect('admin_panel/gestionar_juegos')  # Redirige de nuevo a la página de gestión
     
-    return render(request, 'eliminar_juego.html', {'juego': juego})
+    return render(request, 'admin_panel/eliminar_juego.html', {'juego': juego})
+
+@user_passes_test(lambda u: u.is_superuser)
+def agregar_juego(request):
+    if request.method == 'POST':
+        form = JuegoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('gestionar_juegos')  # Redirigir a la lista de juegos
+    else:
+        form = JuegoForm()
+
+    return render(request, 'admin_panel/agregar_juego.html', {'form': form})
+
+
+def listar_categorias(request):
+    categorias = Categoria.objects.all()
+    return render(request, 'juegos/listar_categorias.html', {'categorias': categorias})

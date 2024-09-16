@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class Categoria(models.Model):
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(null=True, blank=True)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.nombre
-    
 
 class Juego(models.Model):
     nombre = models.CharField(max_length=200)
@@ -35,3 +34,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
