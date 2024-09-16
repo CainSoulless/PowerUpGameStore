@@ -104,22 +104,6 @@ def eliminar_del_carrito(request, juego_id):
 
     return redirect('ver_carrito')
 
-# def eliminar_del_carrito(request, juego_id):
-#     # Convertir el producto_id a cadena
-#     juego_id_str = str(juego_id)
-    
-#     # Obtener el carrito de la sesión
-#     carrito = request.session.get('carrito', {})
-    
-#     # Si el producto está en el carrito, eliminarlo
-#     if juego_id_str in carrito:
-#         del carrito[juego_id_str]
-    
-#     # Actualizar el carrito en la sesión
-#     request.session['carrito'] = carrito
-    
-#     return redirect('carrito')
-
 def vaciar_carrito(request):
     request.session['carrito'] = {}  # Vaciar el carrito en la sesión
     return redirect('carrito')
@@ -184,7 +168,10 @@ def agregar_juego(request):
 
     return render(request, 'admin_panel/agregar_juego.html', {'form': form})
 
-
 def listar_categorias(request):
     categorias = Categoria.objects.all()
     return render(request, 'juegos/listar_categorias.html', {'categorias': categorias})
+
+def listar_juegos(request):
+    juegos = Juego.objects.all()  # Obtener todos los juegos
+    return render(request, 'juegos/listar_juegos.html', {'juegos': juegos})

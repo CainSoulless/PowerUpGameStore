@@ -44,4 +44,5 @@ urlpatterns = [
     path('admin_panel/gestionar-juegos/eliminar/<int:juego_id>/', views.eliminar_juego, name='eliminar_juego'),
     path('admin_panel/gestionar-juegos/agregar/', views.agregar_juego, name='agregar_juego'),
     path('juegos/listar_categorias/', views.listar_categorias, name='listar_categorias'),
+    path('juegos/listar_juegos/', views.listar_juegos, name='listar_juegos'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
