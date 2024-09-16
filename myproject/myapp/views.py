@@ -8,6 +8,7 @@ from .models import Juego
 from .models import Categoria
 from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
+from django.core.paginator import Paginator
 
 def index(request):
     return render(request, 'index.html')
@@ -173,5 +174,8 @@ def listar_categorias(request):
     return render(request, 'juegos/listar_categorias.html', {'categorias': categorias})
 
 def listar_juegos(request):
-    juegos = Juego.objects.all()  # Obtener todos los juegos
-    return render(request, 'juegos/listar_juegos.html', {'juegos': juegos})
+    juegos = Juego.objects.all()
+    paginator = Paginator(juegos, 10)  # Muestra 10 juegos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'juegos/listar_juegos.html', {'page_obj': page_obj})

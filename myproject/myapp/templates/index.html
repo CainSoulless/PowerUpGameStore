@@ -42,14 +42,13 @@
             <div class="destaques__categorias">
                 <ul class="destaques__categorias___lista">
                     <li class="destaques__categorias___item">
-                        <a class="destaques__categorias___link" href="#">
-                            <i id="destaques__categorias___icon"
-                                class="destaques__categorias___icon fas fa-layer-group"></i>
+                        <a class="destaques__categorias___link" href="{% url 'listar_categorias' %}">
+                            <i id="destaques__categorias___icon" class="destaques__categorias___icon fas fa-layer-group"></i>
                             Categorías populares
                         </a>
                     </li>
                     <li class="destaques__categorias___item">
-                        <a class="destaques__categorias___link" href="#">
+                        <a class="destaques__categorias___link" href="{% url 'listar_juegos' %}">
                             <i class="fas fa-list-ol"></i>
                             Juegos populares
                         </a>
@@ -69,6 +68,7 @@
                 </ul>
             </div>
         </section>
+
         <section class="populares">
             <div class="populares__items">
                 <div class="populares__info">
