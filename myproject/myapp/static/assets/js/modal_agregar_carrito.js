@@ -10,11 +10,22 @@ document.getElementById('carritoForm').addEventListener('submit', function(event
         },
         body: new FormData(form)
     })
-    .then(response => response.json()) // Asegúrate de que el backend retorne JSON
+    .then(response => {
+        // Verificar si la respuesta es exitosa y devolver JSON, de lo contrario, devolver un error
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        // Abre el modal después de añadir el producto
+        // Si el backend responde correctamente, mostrar el modal
         var modal = new bootstrap.Modal(document.getElementById('cartModal'));
         modal.show();
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        // Mostrar el modal incluso si ocurre un error en la llamada
+        var modal = new bootstrap.Modal(document.getElementById('cartModal'));
+        modal.show();
+        console.error('Error:', error);
+    });
 });

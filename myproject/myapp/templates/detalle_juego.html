@@ -50,12 +50,13 @@
                     ¿Desea proceder a pagar ahora o seguir comprando?
                 </div>
                 <div class="modal-footer">
-                    <a href="{% url 'carrito' %}" class="btn btn-success">Pagar ahora</a>
+                    <a href="{% url 'ver_carrito' %}" class="btn btn-success">Pagar ahora</a>
                     <a href="{% url 'index' %}" class="btn btn-secondary">Seguir comprando</a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Barra de progreso de popularidad o rating -->
     <div class="mt-4">
@@ -128,9 +129,6 @@
     </div>
 </main>
 
-<!-- Mostrar el modal al agregar un juego al carrito -->
 {% load static %}
 <script src="{% static 'assets/js/modal_agregar_carrito.js' %}"></script>
-
-
 {% endblock %}

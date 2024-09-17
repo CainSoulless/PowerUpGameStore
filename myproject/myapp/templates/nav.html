@@ -24,12 +24,10 @@
         <div class="d-flex">
             {% if user.is_authenticated %}
 
-                <li class="menu__item">
-                    <a href="{% url 'carrito' %}" class="menu__link btn btn-link">
-                        <i class="fas fa-cart-plus"></i>
-                        Carrito
-                    </a>
-                </li>
+                <a href="{% url 'ver_carrito' %}" class="menu__link btn btn-link">
+                    <i class="fas fa-cart-plus"></i>
+                    Carrito
+                </a>
 
                 <li class="menu__item">
                     <button type="submit" class="menu__link btn btn-link">
