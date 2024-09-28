@@ -27,6 +27,11 @@ from myapp.views import (
     CategoriaListCreateAPIView, 
     CategoriaDetailAPIView
 )
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 
 urlpatterns = [
     # Rutas del sitio web
@@ -52,5 +57,10 @@ urlpatterns = [
     path('api/juegos/<int:pk>/', JuegoDetailAPIView.as_view(), name='api-juego-detail'),
     path('api/categorias/', CategoriaListCreateAPIView.as_view(), name='api-categoria-list'),
     path('api/categorias/<int:pk>/', CategoriaDetailAPIView.as_view(), name='api-categoria-detail'),
+
+    # 
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

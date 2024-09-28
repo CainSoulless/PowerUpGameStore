@@ -10,10 +10,11 @@ from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
 
+# REST API
 from rest_framework import generics
 from .models import Juego, Categoria
 from .serializers import JuegoSerializer, CategoriaSerializer
-
+from rest_framework.permissions import IsAuthenticated
 
 def index(request):
     return render(request, 'index.html')
@@ -188,15 +189,21 @@ def listar_juegos(request):
 class JuegoListCreateAPIView(generics.ListCreateAPIView):
     queryset = Juego.objects.all()
     serializer_class = JuegoSerializer
+    permission_classes = [IsAuthenticated]  # Requiere autenticación para acceder
 
 class JuegoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Juego.objects.all()
     serializer_class = JuegoSerializer
+    permission_classes = [IsAuthenticated]  # Requiere autenticación para acceder
 
+# Vistas protegidas de Categoría
 class CategoriaListCreateAPIView(generics.ListCreateAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [IsAuthenticated]  # Requiere autenticación para acceder
 
 class CategoriaDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [IsAuthenticated]  # Requiere autenticación para acceder
+
