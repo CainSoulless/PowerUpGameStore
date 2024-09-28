@@ -4,7 +4,7 @@ from .models import Juego, Categoria
 class JuegoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Juego
-        fields = ['id', 'nombre', 'descripcion', 'imagen', 'categoria']
+        fields = ['id', 'nombre', 'descripcion', 'imagen', 'categoria', 'precio']
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
