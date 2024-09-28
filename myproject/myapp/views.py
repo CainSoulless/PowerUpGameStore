@@ -10,6 +10,11 @@ from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
 
+from rest_framework import generics
+from .models import Juego, Categoria
+from .serializers import JuegoSerializer, CategoriaSerializer
+
+
 def index(request):
     return render(request, 'index.html')
 
@@ -179,3 +184,19 @@ def listar_juegos(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'juegos/listar_juegos.html', {'page_obj': page_obj})
+
+class JuegoListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Juego.objects.all()
+    serializer_class = JuegoSerializer
+
+class JuegoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Juego.objects.all()
+    serializer_class = JuegoSerializer
+
+class CategoriaListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class CategoriaDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer

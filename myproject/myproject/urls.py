@@ -17,15 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
-from myapp.views import register_account_view
-from myapp.views import login_view
-from myapp.views import ver_carrito
+from myapp.views import register_account_view, login_view, ver_carrito
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-    
+from myapp.views import (
+    JuegoListCreateAPIView, 
+    JuegoDetailAPIView, 
+    CategoriaListCreateAPIView, 
+    CategoriaDetailAPIView
+)
 
 urlpatterns = [
+    # Rutas del sitio web
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('register_account/', register_account_view, name='register_account'),
@@ -37,12 +41,16 @@ urlpatterns = [
     path('carrito/eliminar/<int:juego_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('carrito/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
     path('juego/<int:juego_id>/', views.detalle_juego, name='detalle_juego'),
-    path('carrito/agregar/<int:juego_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
     path('admin_panel/gestionar-juegos/', views.gestionar_juegos, name='gestionar_juegos'),
     path('admin_panel/gestionar-juegos/editar/<int:juego_id>/', views.editar_juego, name='editar_juego'),
     path('admin_panel/gestionar-juegos/eliminar/<int:juego_id>/', views.eliminar_juego, name='eliminar_juego'),
     path('admin_panel/gestionar-juegos/agregar/', views.agregar_juego, name='agregar_juego'),
-    path('juegos/listar_categorias/', views.listar_categorias, name='listar_categorias'),
-    path('juegos/listar_juegos/', views.listar_juegos, name='listar_juegos'),
+
+    # Rutas API con prefijo `api/`
+    path('api/juegos/', JuegoListCreateAPIView.as_view(), name='api-juego-list'),
+    path('api/juegos/<int:pk>/', JuegoDetailAPIView.as_view(), name='api-juego-detail'),
+    path('api/categorias/', CategoriaListCreateAPIView.as_view(), name='api-categoria-list'),
+    path('api/categorias/<int:pk>/', CategoriaDetailAPIView.as_view(), name='api-categoria-detail'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
