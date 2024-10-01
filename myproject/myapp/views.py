@@ -9,6 +9,7 @@ from .models import Categoria
 from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
+import requests
 
 # REST API
 from rest_framework import generics
@@ -18,6 +19,19 @@ from rest_framework.permissions import IsAuthenticated
 
 def index(request):
     return render(request, 'index.html')
+
+def trivia(request):
+    url = 'https://opentdb.com/api.php?amount=1&category=15&difficulty=easy&type=boolean'
+    response = requests.get(url)
+    
+    preguntas = response.json().get('results', [])
+    
+    context = {
+        'preguntas' : preguntas
+    }
+    
+    return render(request, 'trivia.html', context)
+
 
 def register_account(request):
     return render(request, 'register_account.html')
