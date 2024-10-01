@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Trivia Juegos{% endblock %}
+
+{% block content %}
+<h2 class="my-4">Trivia</h2>
+
+{%for pregunta in preguntas%}
+<div class="alert alert-info">
+    {{ pregunta.question }}
+</div>
+
+<a class="btn btn-primary">Verdadero</a>
+
+<a class="btn btn-primary">Falso</a>
+{%endfor%}
+
+{% endblock %}
