@@ -53,6 +53,7 @@ urlpatterns = [
     path('admin_panel/gestionar-juegos/editar/<int:juego_id>/', views.editar_juego, name='editar_juego'),
     path('admin_panel/gestionar-juegos/eliminar/<int:juego_id>/', views.eliminar_juego, name='eliminar_juego'),
     path('admin_panel/gestionar-juegos/agregar/', views.agregar_juego, name='agregar_juego'),
+    path('trivia/', views.trivia, name='trivia'),
 
     # Rutas API con prefijo `api/`
     path('api/juegos/', JuegoListCreateAPIView.as_view(), name='api-juego-list'),
