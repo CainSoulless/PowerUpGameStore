@@ -1,0 +1,37 @@
+# Evitar archivos .env sensibles
+.env
+
+# Archivos creados por Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Archivos de base de datos locales (SQLite, si la usas)
+db.sqlite3
+
+# Archivos generados por la migración de Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+
+# Archivos de compilación de Windows
+*.dll
+*.exe
+*.lib
+*.so
+
+# Archivos de configuración de editores de código
+.vscode/
+.idea/
+
+# Archivos relacionados con entornos virtuales
+venv/
+env/
+ENV/
+venv.bak/
+
+# Archivos estáticos generados por collectstatic
+staticfiles/
