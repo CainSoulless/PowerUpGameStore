@@ -9,12 +9,17 @@ from .models import Categoria
 from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
+from django.contrib.auth.views import PasswordResetView
 
 # REST API
 from rest_framework import generics
 from .models import Juego, Categoria
 from .serializers import JuegoSerializer, CategoriaSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -207,3 +212,9 @@ class CategoriaDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategoriaSerializer
     permission_classes = [IsAuthenticated]  # Requiere autenticación para acceder
 
+
+class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    email_template_name = 'registration/password_reset_email.html'
+    subject_template_name = 'registration/password_reset_subject.txt'
+    success_message = "El correo de restablecimiento ha sido enviado. Revisa tu bandeja de entrada."
+    success_url = reverse_lazy('index')

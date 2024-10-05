@@ -1,0 +1,17 @@
+.message-container {
+    position: relative; /* O usa 'fixed' si quieres que el mensaje esté siempre en la parte superior */
+    z-index: 1000; /* Asegura que el mensaje siempre esté por encima de los demás elementos */
+}
+
+/* Transición para hacer desaparecer gradualmente */
+.alert {
+    transition: opacity 0.5s ease-out;
+}
+
+.alert.show {
+    opacity: 1;
+}
+
+.alert:not(.show) {
+    opacity: 0;
+}

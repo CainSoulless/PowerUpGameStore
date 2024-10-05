@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
-from myapp.views import register_account_view, login_view, ver_carrito
+from myapp.views import register_account_view, login_view, ver_carrito, CustomPasswordResetView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -64,5 +64,15 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
+    # Confirmación de que se ha enviado un correo
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    
+    # Ruta para establecer una nueva contraseña usando el token enviado por correo
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    
+    # Confirmación de que la contraseña se ha restablecido con éxito
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

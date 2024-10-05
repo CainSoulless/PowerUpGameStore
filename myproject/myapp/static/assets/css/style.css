@@ -1,13 +1,14 @@
 .app {
     background: rgb(2, 3, 20);
+    color: #f1f1f1; /* Texto claro */
     display: grid;  
     font-family: Arial, Helvetica, sans-serif;
     grid-template-areas: 
         "header"
         "contenido"
         "footer";
-    grid-template-columns: auto;
-    grid-template-rows: 50px auto auto; 
+    /* grid-template-columns: auto;
+    grid-template-rows: 50px auto auto;  */
 }
 
 .encabezado {
@@ -31,3 +32,4 @@
     text-align: center;
     
 }
+
