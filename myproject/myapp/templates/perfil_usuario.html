@@ -52,7 +52,8 @@
             <form id="profile-form" action="{% url 'perfil_usuario' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <div class="d-flex justify-content-center">
+                    <!-- Imagen de perfil con recorte -->
+                    <div class="d-flex justify-content-center mb-3">
                         <img id="image" style="max-width: 100%; display:none;">
                     </div>
                     <div class="mb-3">
@@ -60,9 +61,25 @@
                         <input class="form-control" type="file" id="profile_image" name="profile_image" accept="image/*">
                     </div>
 
+                    <!-- Formulario de datos personales -->
+                    <div class="mb-3">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="text" class="form-control" name="email" value="{{ user_form.email.value }}" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="birthday">Cumpleaños</label>
+                        <input type="date" class="form-control" name="birthday" value="{{ profile_form.birthday.value }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Dirección</label>
+                        <input type="text" class="form-control" name="address" value="{{ profile_form.address.value }}">
+                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="crop-btn" class="btn btn-primary" disabled>Recortar y Guardar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
                 </div>
             </form>
@@ -86,7 +103,7 @@
             profileImageInput.value = '';
             image.src = url;
             image.style.display = 'block';
-            cropBtn.disabled = false;
+            cropBtn.disabled = false; // Habilitar el botón de recorte solo cuando haya una imagen
             if (cropper) {
                 cropper.destroy();
             }

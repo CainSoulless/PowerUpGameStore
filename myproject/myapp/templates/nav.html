@@ -73,7 +73,20 @@
         </div>
     </ul>
 </nav>
-<div class="message-container">
+<div class="position-fixed top-0 start-50 translate-middle-x mt-2" style="z-index: 1050;">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- <div class="message-container">
     {% if messages %}
         <div class="container mt-2">
             {% for message in messages %}
@@ -84,7 +97,7 @@
             {% endfor %}
         </div>
     {% endif %}
-</div>
+</div> -->
 <!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
