@@ -12,6 +12,8 @@
             <h1 class="display-4">{{ user.username }}</h1>
             <p class="lead">Correo electrónico: {{ user.email }}</p>
             <p class="lead">Fecha de registro: {{ user.date_joined }}</p>
+            <p class="lead">Cumpleaños: {{ user.userprofile.birthday }}</p>
+            <p class="lead">Dirección: {{ user.userprofile.address }}</p>
             <p class="lead">
                 Tipo de usuario: 
                 {% if user.is_superuser %}
@@ -20,6 +22,10 @@
                     Cliente
                 {% endif %}
             </p>
+
+            <div class="mb-3">
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#imagenModal">Editar Perfil</a>
+            </div>
 
             <!-- Mostrar botón para gestionar juegos solo si el usuario es administrador -->
             {% if user.is_superuser %}
@@ -30,4 +36,53 @@
         </div>
     </div>
 </main>
+
+<div class="modal fade" id="imagenModal" tabindex="-1" aria-labelledby="imagenModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imagenModalLabel">Cambiar datos de Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                        <div class="d-flex">
+                            <img src="https://via.placeholder.com/150" alt="{{ user.username }}" class="mx-auto img-fluid rounded-circle">
+                        </div>
+                        <div class="mb-3">
+                            <label for="image">Imagen de Perfil</label>
+                            <input class="form-control" type="file" name="image" id="image">
+                        </div>
+                        <div class="d-flex">
+                            <div class="mb-3 mr-2">
+                                <label for="Usuario">Usuario</label>
+                                <input type="text" class="form-control" name="Usuario" value="{{ user.username}}">
+                            </div>
+
+                            <div class="mb-3 mr-2">
+                                <label for="Cumpleaños">Cumpleaños</label>
+                                <input type="date" class="form-control" name="Cumpleaños" value="{{ user.userprofile.birthday}}">
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="mb-3 mr-2">
+                                <label for="Direccion">Direccion</label>
+                                <input type="text" class="form-control" name="Direccion" value="{{ user.userprofile.address}}">
+                            </div>
+
+                            <div class="mb-3 mr-2">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control" name="Email" value="{{ user.email}}" disabled>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
