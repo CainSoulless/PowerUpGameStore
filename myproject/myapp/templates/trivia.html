@@ -6,12 +6,18 @@
 <h2 class="my-4">Trivia</h2>
 
 {%for pregunta in preguntas%}
-<div class="alert alert-info">
-    {{ pregunta.question }}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Pregunta:</h5>
+                <p class="card-text">{{ pregunta.question }}</p>
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#respuestaModal">Verdadero</a>
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#falsoModal">Falso</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#respuestaModal">Verdadero</a>
-<a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#falsoModal">Falso</a>
 
 <div class="modal fade" id="respuestaModal" tabindex="-1" aria-labelledby="respuestaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
