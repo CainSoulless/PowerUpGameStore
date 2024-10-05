@@ -22,6 +22,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)  # Campo para la imagen de perfil
+
+    def __str__(self):
+        return self.user.username
 
 class Tarjeta(models.Model):
     nombre = models.CharField(max_length=200)

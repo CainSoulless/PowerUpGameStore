@@ -18,6 +18,7 @@ from .serializers import JuegoSerializer, CategoriaSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from .forms import UserProfileForm, UserEditForm
 import requests
 
 def index(request):
@@ -149,7 +150,24 @@ def detalle_juego(request, juego_id):
 
 @login_required
 def perfil_usuario(request):
-    return render(request, 'perfil_usuario.html', {'usuario': request.user})
+    user_form = UserEditForm(instance=request.user)
+    profile_form = UserProfileForm(instance=request.user.userprofile)
+
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Perfil actualizado correctamente.')
+            return redirect('perfil_usuario')
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'perfil_usuario.html', context)
 
 @user_passes_test(lambda u: u.is_superuser)
 def gestionar_juegos(request):

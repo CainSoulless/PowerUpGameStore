@@ -6,10 +6,15 @@
 <main class="contenido container mt-4">
     <div class="row">
         <div class="col-md-4">
-            <img src="https://via.placeholder.com/150" alt="{{ user.username }}" class="img-fluid rounded-circle">
+            <!-- Mostrar la imagen de perfil actual o una por defecto si no tiene -->
+            {% if user.userprofile.profile_image %}
+                <img id="profile-pic" src="{{ user.userprofile.profile_image.url }}" alt="{{ user.username }}" class="img-fluid rounded-circle perfil-imagen">
+            {% else %}
+                <img id="profile-pic" src="https://via.placeholder.com/150" alt="{{ user.username }}" class="img-fluid rounded-circle perfil-imagen">
+            {% endif %}
         </div>
         <div class="col-md-8">
-            <h1 class="display-4">{{ user.username }}</h1>
+            <h1 class="display-4">{{ user.username }}</h1>  
             <p class="lead">Correo electrónico: {{ user.email }}</p>
             <p class="lead">Fecha de registro: {{ user.date_joined }}</p>
             <p class="lead">Cumpleaños: {{ user.userprofile.birthday }}</p>
@@ -27,7 +32,6 @@
                 <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#imagenModal">Editar Perfil</a>
             </div>
 
-            <!-- Mostrar botón para gestionar juegos solo si el usuario es administrador -->
             {% if user.is_superuser %}
             <a href="{% url 'gestionar_juegos' %}" class="btn btn-warning mt-3">
                 <i class="fas fa-cogs"></i> Gestionar Juegos
@@ -37,6 +41,7 @@
     </div>
 </main>
 
+<!-- Modal para editar el perfil -->
 <div class="modal fade" id="imagenModal" tabindex="-1" aria-labelledby="imagenModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -44,45 +49,103 @@
                 <h5 class="modal-title" id="imagenModalLabel">Cambiar datos de Perfil</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form id="profile-form" action="{% url 'perfil_usuario' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
-                        <div class="d-flex">
-                            <img src="https://via.placeholder.com/150" alt="{{ user.username }}" class="mx-auto img-fluid rounded-circle">
-                        </div>
-                        <div class="mb-3">
-                            <label for="image">Imagen de Perfil</label>
-                            <input class="form-control" type="file" name="image" id="image">
-                        </div>
-                        <div class="d-flex">
-                            <div class="mb-3 mr-2">
-                                <label for="Usuario">Usuario</label>
-                                <input type="text" class="form-control" name="Usuario" value="{{ user.username}}">
-                            </div>
+                    <div class="d-flex justify-content-center">
+                        <img id="image" style="max-width: 100%; display:none;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="profile_image">Subir nueva imagen de perfil</label>
+                        <input class="form-control" type="file" id="profile_image" name="profile_image" accept="image/*">
+                    </div>
 
-                            <div class="mb-3 mr-2">
-                                <label for="Cumpleaños">Cumpleaños</label>
-                                <input type="date" class="form-control" name="Cumpleaños" value="{{ user.userprofile.birthday}}">
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="mb-3 mr-2">
-                                <label for="Direccion">Direccion</label>
-                                <input type="text" class="form-control" name="Direccion" value="{{ user.userprofile.address}}">
-                            </div>
-
-                            <div class="mb-3 mr-2">
-                                <label for="Email">Email</label>
-                                <input type="text" class="form-control" name="Email" value="{{ user.email}}" disabled>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="crop-btn" class="btn btn-primary" disabled>Recortar y Guardar</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Incluir CSS y JS de Cropper.js -->
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<script>
+    var cropper;
+    var image = document.getElementById('image');
+    var profileImageInput = document.getElementById('profile_image');
+    var cropBtn = document.getElementById('crop-btn');
+    
+    profileImageInput.addEventListener('change', function (event) {
+        var files = event.target.files;
+        var done = function (url) {
+            profileImageInput.value = '';
+            image.src = url;
+            image.style.display = 'block';
+            cropBtn.disabled = false;
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropper = new Cropper(image, {
+                aspectRatio: 1, // Relación de aspecto cuadrada
+                viewMode: 1,
+                movable: true,
+                zoomable: true,
+                scalable: true,
+                rotatable: true,
+                cropBoxResizable: true
+            });
+        };
+        var reader;
+        var file;
+        if (files && files.length > 0) {
+            file = files[0];
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    // Manejar el botón de recorte y guardado
+    cropBtn.addEventListener('click', function () {
+        if (cropper) {
+            cropper.getCroppedCanvas({
+                width: 300,  // Ancho deseado de la imagen recortada
+                height: 300, // Altura deseada de la imagen recortada
+                imageSmoothingQuality: 'high',
+            }).toBlob(function (blob) {
+                var formData = new FormData();
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                formData.append('profile_image', blob, 'profile_image.png');
+
+                // Enviar el formulario con AJAX para guardar la imagen recortada
+                fetch("{% url 'perfil_usuario' %}", {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Error al subir la imagen');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        }
+    });
+</script>
+
 {% endblock %}
