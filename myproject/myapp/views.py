@@ -18,11 +18,23 @@ from .serializers import JuegoSerializer, CategoriaSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-
-
+import requests
 
 def index(request):
     return render(request, 'index.html')
+
+def trivia(request):
+    url = 'https://opentdb.com/api.php?amount=1&category=15&difficulty=easy&type=boolean'
+    response = requests.get(url)
+    
+    preguntas = response.json().get('results', [])
+    
+    context = {
+        'preguntas' : preguntas
+    }
+    
+    return render(request, 'trivia.html', context)
+
 
 def register_account(request):
     return render(request, 'register_account.html')

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Trivia Juegos{% endblock %}
+
+{% block content %}
+<h2 class="my-4">Trivia</h2>
+
+{%for pregunta in preguntas%}
+<div class="alert alert-info">
+    {{ pregunta.question }}
+</div>
+
+<a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#respuestaModal">Verdadero</a>
+<a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#falsoModal">Falso</a>
+
+<div class="modal fade" id="respuestaModal" tabindex="-1" aria-labelledby="respuestaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="respuestaModalLabel">Respuesta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        {% if pregunta.correct_answer == 'True' %}
+                        <label for="username" class="form-label">Correcto</label>
+                        {% elif pregunta.correct_answer == 'False' %}
+                        <label for="username" class="form-label">Incorrecto</label>
+                        {% endif%}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="falsoModal" tabindex="-1" aria-labelledby="falsoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="falsoModalLabel">Respuesta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        {% if pregunta.correct_answer == 'False' %}
+                        <label for="username" class="form-label">Correcto</label>
+                        {% elif pregunta.correct_answer == 'True' %}
+                        <label for="username" class="form-label">Incorrecto</label>
+                        {% endif%}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endfor%}
+
+{% endblock %}
