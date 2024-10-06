@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'myapp/static')]
 

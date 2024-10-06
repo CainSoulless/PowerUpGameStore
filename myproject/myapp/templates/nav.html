@@ -86,27 +86,15 @@
     {% endif %}
 </div>
 
-<!-- <div class="message-container">
-    {% if messages %}
-        <div class="container mt-2">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div> -->
 <!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <h5 class="modal-title text-dark" id="loginModalLabel">Iniciar Sesión</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-dark">
                 <!-- Formulario de inicio de sesión -->
                 <form id="login-form" method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
@@ -122,7 +110,7 @@
                 </form>
 
                 <!-- Formulario de restablecimiento de contraseña -->
-                <form id="reset-password-form" method="POST" action="{% url 'password_reset' %}">
+                <form id="reset-password-form" method="POST" action="{% url 'password_reset' %}" style="display: none;">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico</label>
@@ -131,7 +119,7 @@
                     <button type="submit" class="btn btn-primary">Enviar enlace de restablecimiento</button>
                 </form>
 
-                <!-- Enlace para cambiar entre formularios -->
+                <!-- Enlaces para alternar entre formularios -->
                 <div class="mt-3">
                     <a href="#" class="btn btn-link" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
                     <a href="#" class="btn btn-link" id="back-to-login-link" style="display: none;">Volver a Iniciar Sesión</a>
