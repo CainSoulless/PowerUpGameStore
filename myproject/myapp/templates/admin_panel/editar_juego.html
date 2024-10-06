@@ -10,7 +10,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'gestionar_juegos' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'editar_juego' juego.id %}" class="btn btn-primary">Editar</a>
     </form>
 </main>
 {% endblock %}

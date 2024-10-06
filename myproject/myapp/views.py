@@ -180,14 +180,18 @@ def editar_juego(request, juego_id):
     juego = get_object_or_404(Juego, id=juego_id)
     
     if request.method == 'POST':
-        form = JuegoForm(request.POST, instance=juego)
+        form = JuegoForm(request.POST, request.FILES, instance=juego)
         if form.is_valid():
             form.save()
-            return redirect('admin_panel/gestionar_juegos')  # Redirige de nuevo a la página de gestión
+            messages.success(request, 'El juego ha sido actualizado con éxito.')
+            return redirect('gestionar_juegos')  # Redirige a la página correcta
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
         form = JuegoForm(instance=juego)
-
+    
     return render(request, 'admin_panel/editar_juego.html', {'form': form, 'juego': juego})
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def eliminar_juego(request, juego_id):
