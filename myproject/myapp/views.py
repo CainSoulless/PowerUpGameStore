@@ -200,6 +200,7 @@ def eliminar_juego(request, juego_id):
 
 @user_passes_test(lambda u: u.is_superuser)
 def agregar_juego(request):
+    categorias = Categoria.objects.all()  # Obtener todas las categorías
     if request.method == 'POST':
         form = JuegoForm(request.POST, request.FILES)
         if form.is_valid():
@@ -208,7 +209,8 @@ def agregar_juego(request):
     else:
         form = JuegoForm()
 
-    return render(request, 'admin_panel/agregar_juego.html', {'form': form})
+    return render(request, 'admin_panel/agregar_juego.html', {'form': form, 'categorias': categorias})
+
 
 def listar_categorias(request):
     categorias = Categoria.objects.all()
