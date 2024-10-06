@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
@@ -11,12 +12,19 @@ class Categoria(models.Model):
 class Juego(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField(null=True, blank=True)
-    imagen = models.ImageField(upload_to='myapp/static/assets/img', null=True, blank=True)
+    imagen = models.ImageField(upload_to='uploads/', max_length=255, null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='juegos')
-    precio = models.DecimalField(max_digits=10, decimal_places=2)  # Cambiado a DecimalField
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        if self.imagen:
+            # Limitar el nombre de la imagen a 100 caracteres
+            self.imagen.name = os.path.basename(self.imagen.name)[:100]
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.nombre} - Categoría: {self.categoria.nombre}'
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

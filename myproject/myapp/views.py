@@ -10,6 +10,7 @@ from myapp.src.login.forms import JuegoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator
 from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse
 
 # REST API
 from rest_framework import generics
@@ -190,24 +191,37 @@ def editar_juego(request, juego_id):
 
 @user_passes_test(lambda u: u.is_superuser)
 def eliminar_juego(request, juego_id):
-    juego = get_object_or_404(Juego, id=juego_id)
-    
-    if request.method == 'POST':
-        juego.delete()
-        return redirect('admin_panel/gestionar_juegos')  # Redirige de nuevo a la página de gestión
-    
+    try:
+        juego = get_object_or_404(Juego, id=juego_id)
+        
+        if request.method == 'POST':
+            juego.delete()
+            messages.success(request, f"El juego {juego.nombre} ha sido eliminado con éxito.")
+            return redirect(reverse('gestionar_juegos'))
+            
+    except Juego.DoesNotExist:
+        messages.error(request, "El juego no existe.")
+        return redirect('gestionar_juegos')
+
     return render(request, 'admin_panel/eliminar_juego.html', {'juego': juego})
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def agregar_juego(request):
-    categorias = Categoria.objects.all()  # Obtener todas las categorías
     if request.method == 'POST':
         form = JuegoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('gestionar_juegos')  # Redirigir a la lista de juegos
+            messages.success(request, 'El juego ha sido agregado con éxito.')
+            return redirect('gestionar_juegos')
+        else:
+            print(form.errors)  # Esto imprimirá los errores en la consola
+            messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
         form = JuegoForm()
+
+    # Asegúrate de que las categorías estén disponibles en el contexto
+    categorias = Categoria.objects.all()
 
     return render(request, 'admin_panel/agregar_juego.html', {'form': form, 'categorias': categorias})
 
